@@ -8,18 +8,28 @@
 import SwiftUI
 import Firebase
 
+//@main
+//struct RecipeManagementApp: App {
+//    @StateObject  var viewModel = AuthViewModel()
+//    
+//    init() {
+//        FirebaseApp.configure()
+//    }
+//    
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//                .environmentObject(viewModel)
+//        }
+//    }
+//}
 @main
 struct RecipeManagementApp: App {
-    @StateObject  var viewModel = AuthViewModel()
-    
-    init() {
-        FirebaseApp.configure()
-    }
-    
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(viewModel)
+            RecipeHomeView()
         }
+        .modelContainer(for: [Recipe.self])
     }
 }
