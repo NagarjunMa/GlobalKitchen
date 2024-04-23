@@ -22,6 +22,7 @@ struct RecipeHomeView: View {
     @State private var recipeExists: String?
     @State private var selectedFilter: Filter = .all
     @State private var searchText = ""
+    @State private var showProfileView = false
     
     enum Filter: String {
         case all = "All"
@@ -50,14 +51,26 @@ struct RecipeHomeView: View {
                         Text("Recipes")
                             .font(.system(size: 25))
                             .fontWeight(.bold)
-                            .aspectRatio(10/3, contentMode: .fit)
                     }
                     ToolbarItem {
-                            Button(action: initializeRecipes) {
-                                Image(systemName: "pencil.and.scribble")
-                                    .foregroundColor(Color(UIColor.darkGrey))
-                            }
+                        Button(action: initializeRecipes) {
+                            Image(systemName: "pencil.and.scribble")
+                        }
+                        .foregroundColor(Color(UIColor.darkGray)) // Corrected from darkGrey to darkGray
                     }
+                    ToolbarItem {
+                        Button(action: {
+                            showProfileView.toggle()
+                        }) {
+                            Image(systemName: "person.circle")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundColor(Color(UIColor.darkGray))
+                        }
+                        .sheet(isPresented: $showProfileView) {
+                                               ProfileView()
+                                           }
+                                       }
                     ToolbarItem {
                         Button(action: {
                             showingSheet.toggle()
@@ -65,20 +78,21 @@ struct RecipeHomeView: View {
                             HStack {
                                 Image(systemName: "plus")
                                     .resizable()
-                                    .frame(width: 10 , height: 10)
-                                Text("recipe")
+                                    .frame(width: 10, height: 10)
+                                Text("Add Recipe")
                                     .font(.system(size: 18))
                                     .fontWeight(.semibold)
                             }
                             .padding(.vertical, 5)
+                            .padding(.leading, 10)
+                            .padding(.trailing, 20)
+                            .foregroundColor(Color.white)
+                            .background(Color.green)
+                            .cornerRadius(10)
                         }
-                        .padding(.leading, 10)
-                        .padding(.trailing, 20)
-                        .foregroundColor(Color(UIColor.white))
-                        .background(Color(UIColor.green))
-                        .cornerRadius(10)
                     }
                 }
+
             }
             .padding(.horizontal)
         } detail: {
@@ -92,11 +106,13 @@ struct RecipeHomeView: View {
     private func initializeRecipes() {
         for recipe in sampleRecipes {
             modelContext.insert(recipe)
-            if recipe.title == "Lebkuchengewürz" {
-                recipe.categories = sampleLebkuchengewürzCategories
-            } else {
-                recipe.categories = samplePfeffernüsseCategories
-            }
+        }
+        
+        do {
+            try modelContext.save()
+        } catch {
+            // Handle the error appropriately
+            print("Failed to save recipes: \(error)")
         }
     }
 }
@@ -113,16 +129,16 @@ struct SearchBarView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(Color(UIColor.grey))
+                .foregroundColor(Color(UIColor.systemGray3))
                 .cornerRadius(30)
             HStack {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(Color(UIColor.darkGrey))
+                    .foregroundColor(Color(UIColor.systemGray3))
                 TextField(
                     "Search Recipes",
                     text: $searchText
                 )
-                .foregroundColor(Color(UIColor.mediumGrey))
+                .foregroundColor(Color(UIColor.systemGray5))
             }
             .padding(.horizontal, 15)
             .onTapGesture {
