@@ -17,6 +17,7 @@ struct RecipeHomeView: View {
     
     @Query private var recipes: Array<Recipe>
     @Query private var categories: Array<Category>
+    @StateObject private var viewModel = AuthViewModel()
     
     @State private var showingSheet = false
     @State private var recipeExists: String?
@@ -35,68 +36,83 @@ struct RecipeHomeView: View {
     //MARK: Main View
     
     var body: some View {
-        NavigationSplitView {
-            GeometryReader { geometry in
-                VStack(spacing: 20) {
-                    SearchBarView(searchText: $searchText, selectedFilter: $selectedFilter)
-                        .padding(.top, 10)
-                    FilterButtonsView(searchText: $searchText, selectedFilter: $selectedFilter, geometryWidth: geometry.size.width)
-                    ListView(selectedFilter: $selectedFilter, geometryWidth: geometry.size.width, recipes: recipes, categories: categories, searchString: searchText)
-                }
-                .sheet(isPresented: $showingSheet) {
-                    FormView(recipe: nil)
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Text("Recipes")
-                            .font(.system(size: 25))
-                            .fontWeight(.bold)
-                    }
-                    ToolbarItem {
-                        Button(action: initializeRecipes) {
-                            Image(systemName: "pencil.and.scribble")
+        Group {
+            if viewModel.user != nil {
+                NavigationSplitView {
+                    GeometryReader { geometry in
+                        VStack(spacing: 20) {
+                            SearchBarView(searchText: $searchText, selectedFilter: $selectedFilter)
+                                .padding(.top, 10)
+                            FilterButtonsView(searchText: $searchText, selectedFilter: $selectedFilter, geometryWidth: geometry.size.width)
+                            ListView(selectedFilter: $selectedFilter, geometryWidth: geometry.size.width, recipes: recipes, categories: categories, searchString: searchText)
                         }
-                        .foregroundColor(Color(UIColor.darkGray)) // Corrected from darkGrey to darkGray
-                    }
-                    ToolbarItem {
-                        Button(action: {
-                            showProfileView.toggle()
-                        }) {
-                            Image(systemName: "person.circle")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(Color(UIColor.darkGray))
+                        .sheet(isPresented: $showingSheet) {
+                            FormView(recipe: nil)
                         }
-                        .sheet(isPresented: $showProfileView) {
-                                               ProfileView()
-                                           }
-                                       }
-                    ToolbarItem {
-                        Button(action: {
-                            showingSheet.toggle()
-                        }) {
-                            HStack {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 10, height: 10)
-                                Text("Add Recipe")
-                                    .font(.system(size: 18))
-                                    .fontWeight(.semibold)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Text("Recipes")
+                                    .font(.system(size: 25))
+                                    .fontWeight(.bold)
                             }
-                            .padding(.vertical, 5)
-                            .padding(.leading, 10)
-                            .padding(.trailing, 20)
-                            .foregroundColor(Color.white)
-                            .background(Color.green)
-                            .cornerRadius(10)
+                            ToolbarItem {
+                                Button(action: initializeRecipes) {
+                                    Image(systemName: "pencil.and.scribble")
+                                }
+                                .foregroundColor(Color(UIColor.darkGray))
+                            }
+                            ToolbarItem {
+                                Button(action: {
+                                    showProfileView.toggle()
+                                }) {
+                                    Image(systemName: "person.circle")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .foregroundColor(Color(UIColor.darkGray))
+                                }
+                                .sheet(isPresented: $showProfileView) {
+                                    ProfileView()
+                                }
+                            }
+                            ToolbarItem {
+                                Button(action: {
+                                    showingSheet.toggle()
+                                }) {
+                                    HStack {
+                                        Image(systemName: "plus")
+                                            .resizable()
+                                            .frame(width: 10, height: 10)
+                                        Text("Add Recipe")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                    }
+                                    .padding(.vertical, 5)
+                                    .padding(.leading, 10)
+                                    .padding(.trailing, 20)
+                                    .foregroundColor(Color.white)
+                                    .background(Color.green)
+                                    .cornerRadius(10)
+                                }
+                            }
                         }
                     }
+                    .padding(.horizontal)
+                } detail: {
+                    Text("Select a Recipe")
                 }
-
+            } else {
+                LoginView()
             }
-            .padding(.horizontal)
-        } detail: {
-            Text("Select a Recipe")
+        }
+        .onAppear {
+            if viewModel.user == nil {
+                do {
+                    try viewModel.signOut()
+                } catch {
+                    // Handle the error appropriately
+                    print("Failed to sign out: \(error)")
+                }
+            }
         }
     }
     

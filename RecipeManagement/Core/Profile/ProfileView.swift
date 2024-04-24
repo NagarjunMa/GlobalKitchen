@@ -74,7 +74,7 @@ struct ProfileView: View {
 
     var body: some View {
         NavigationView {
-            if let user = viewModel.currentUser {
+            if let user = viewModel.user {
                 List {
                     Section {
                         HStack {
@@ -106,8 +106,12 @@ struct ProfileView: View {
                     }
                     Section("Account") {
                         Button {
-                            viewModel.signOut()
-                            dismiss()
+                            do {
+                                   try viewModel.signOut()
+                                   dismiss()
+                                } catch {
+                                   print("Failed to sign out: \(error)")
+                                }
                         } label: {
                             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out", tintColor: Color(.systemRed))
                         }
@@ -129,6 +133,7 @@ struct ProfileView: View {
         }
     }
 }
+
 
 
 #Preview {

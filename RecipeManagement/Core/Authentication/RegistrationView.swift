@@ -7,39 +7,33 @@
 
 import SwiftUI
 
-
 struct RegistrationView: View {
     @State private var fullname = ""
     @State private var password = ""
     @State private var email = ""
     @State private var confirmPassword = ""
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var viewModel : AuthViewModel
-    
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        VStack{
-            //image
+        VStack {
+            // image
             Image("recipe-logo")
                 .resizable()
                 .scaledToFill()
-                .frame(width:160,height:180)
+                .frame(width: 160, height: 180)
                 .padding(.vertical, 32)
             
-            VStack(spacing:24){
-                InputView(text:$email, title:"Email Address",placeholder: "name@example.com")
-                
-                InputView(text:$fullname, title:"Full Name",placeholder: "test name")
-                    .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
-                
-                InputView(text:$password, title:"Password", placeholder: "Enter your password",
-                    isSecureField: true)
-                
+            VStack(spacing: 24) {
+                InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
+                InputView(text: $fullname, title: "Full Name", placeholder: "test name")
+                    .autocapitalization(.none)
+                InputView(text: $password, title: "Password", placeholder: "Enter your password",
+                          isSecureField: true)
                 ZStack(alignment: .trailing) {
-                    InputView(text:$confirmPassword, title:"Confirm Password", placeholder: "Confirm your password",
-                        isSecureField: true)
-                    
-                    if !password.isEmpty && !confirmPassword.isEmpty{
+                    InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Confirm your password",
+                              isSecureField: true)
+                    if !password.isEmpty && !confirmPassword.isEmpty {
                         if password == confirmPassword {
                             Image(systemName: "checkmark.circle.fill")
                                 .imageScale(.large)
@@ -55,15 +49,19 @@ struct RegistrationView: View {
                 }
             }
             .padding(.horizontal)
-            .padding(.top,12)
+            .padding(.top, 12)
             
-            Button{
-                Task{
-                    try await viewModel.createUser(withEmail: email,
-                                                   password:password,fullname:fullname)
+            Button {
+                Task {
+                    do {
+                        try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                    } catch {
+                        // Handle user creation error
+                        print("User creation error: \(error.localizedDescription)")
+                    }
                 }
             } label: {
-                HStack{
+                HStack {
                     Text("Sign Up")
                         .fontWeight(.semibold)
                     Image(systemName: "arrow.right")
@@ -72,40 +70,33 @@ struct RegistrationView: View {
                 .frame(width: UIScreen.main.bounds.width - 32, height: 48)
             }
             .background(Color(.systemBlue))
-            .disabled(!fomIsValid)
-            .opacity(fomIsValid ? 1.0 : 0.5)
+            .disabled(!formIsValid)
+            .opacity(formIsValid ? 1.0 : 0.5)
             .cornerRadius(10)
             .padding(.top, 24)
+            
             Spacer()
             
-            
-            Button{
+            Button {
                 dismiss()
             } label: {
-                HStack(spacing: 3){
-                Text("Already have an account?")
-                Text("Sign in")
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                HStack(spacing: 3) {
+                    Text("Already have an account?")
+                    Text("Sign in")
+                        .fontWeight(.bold)
                 }
-                .font(.system(size:14))
+                .font(.system(size: 14))
             }
         }
     }
-}
-
-
-
-extension RegistrationView {
-    var fomIsValid: Bool{
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
-        && confirmPassword == password
-        && !fullname.isEmpty
-        
+    
+    var formIsValid: Bool {
+        !email.isEmpty && email.contains("@") && !password.isEmpty && password.count > 5 && confirmPassword == password && !fullname.isEmpty
     }
 }
+
+
+
 #Preview {
     RegistrationView()
 }
