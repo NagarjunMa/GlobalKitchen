@@ -1,10 +1,3 @@
-//
-//  ListView.swift
-//  RecipeManagement
-//
-//  Created by Nagarjun Mallesh on 22/04/24.
-//
-
 import SwiftUI
 
 struct ListView: View {

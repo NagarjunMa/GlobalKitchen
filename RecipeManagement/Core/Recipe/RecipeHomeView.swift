@@ -90,7 +90,7 @@ struct RecipeHomeView: View {
                                     .padding(.leading, 10)
                                     .padding(.trailing, 20)
                                     .foregroundColor(Color.white)
-                                    .background(Color.green)
+                                    .background(Color(UIColor.color3))
                                     .cornerRadius(10)
                                 }
                             }

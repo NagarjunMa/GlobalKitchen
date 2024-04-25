@@ -34,6 +34,8 @@
 		7BF93FA02BD74F7000E3E9AE /* SampleRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF93F9F2BD74F7000E3E9AE /* SampleRecipes.swift */; };
 		7BF93FA52BD7578500E3E9AE /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF93FA42BD7578500E3E9AE /* Theme.swift */; };
 		7BF93FA72BD7582300E3E9AE /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF93FA62BD7582300E3E9AE /* ListView.swift */; };
+		7BF93FAB2BD9D05D00E3E9AE /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7BF93FAA2BD9D05D00E3E9AE /* FirebaseFirestoreCombine-Community */; };
+		7BF93FAD2BD9D05D00E3E9AE /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7BF93FAC2BD9D05D00E3E9AE /* FirebaseFirestoreSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,7 +73,9 @@
 				7BD4E0AF2BC76CB800003308 /* FirebaseAuth in Frameworks */,
 				7BD4E0B12BC76D5E00003308 /* FirebaseFirestore in Frameworks */,
 				7BD4E0B32BC76D5E00003308 /* FirebaseStorage in Frameworks */,
+				7BF93FAB2BD9D05D00E3E9AE /* FirebaseFirestoreCombine-Community in Frameworks */,
 				7B6E062C2BD701820046C234 /* MarkdownUI in Frameworks */,
+				7BF93FAD2BD9D05D00E3E9AE /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +261,8 @@
 				7BD4E0B02BC76D5E00003308 /* FirebaseFirestore */,
 				7BD4E0B22BC76D5E00003308 /* FirebaseStorage */,
 				7B6E062B2BD701820046C234 /* MarkdownUI */,
+				7BF93FAA2BD9D05D00E3E9AE /* FirebaseFirestoreCombine-Community */,
+				7BF93FAC2BD9D05D00E3E9AE /* FirebaseFirestoreSwift */,
 			);
 			productName = RecipeManagement;
 			productReference = 7B8362B12BC6C81E00B3C36D /* RecipeManagement.app */;
@@ -582,6 +588,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7BD4E0A82BC7637D00003308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		7BF93FAA2BD9D05D00E3E9AE /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BD4E0A82BC7637D00003308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		7BF93FAC2BD9D05D00E3E9AE /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BD4E0A82BC7637D00003308 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
