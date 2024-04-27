@@ -38,13 +38,3 @@ struct ContentView: View {
         }
     }
 }
-//@main
-//struct RecipeManagementApp: App {
-//
-//    var body: some Scene {
-//        WindowGroup {
-//            RecipeHomeView()
-//        }
-//        .modelContainer(for: [Recipe.self])
-//    }
-//}

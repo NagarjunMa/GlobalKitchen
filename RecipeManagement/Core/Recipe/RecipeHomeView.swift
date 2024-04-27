@@ -51,9 +51,9 @@ struct RecipeHomeView: View {
                         }
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
-                                Text("Recipes")
-                                    .font(.system(size: 25))
-                                    .fontWeight(.bold)
+                                Image("recipe-logo")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
                             }
                             ToolbarItem {
                                 Button(action: initializeRecipes) {
@@ -166,7 +166,3 @@ struct SearchBarView: View {
         .frame(height: 50)
     }
 }
-
-//#Preview {
-//    RecipesView()
-//}

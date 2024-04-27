@@ -248,7 +248,3 @@ struct MainSection: View {
     }
 }
 
-
-//#Preview {
-//    RecipeView()
-//}

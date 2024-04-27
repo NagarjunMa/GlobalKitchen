@@ -19,7 +19,7 @@ struct LoginView: View {
                 Image("recipe-logo")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 160, height: 180)
+                    .frame(width: 180, height: 200)
                     .padding(.vertical, 32)
                 
                 // form fields
